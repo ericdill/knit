@@ -146,7 +146,7 @@ class Knit(object):
             msg = "Possible Resource Manager port mismatch.  Detected {0}".format(conf['port'])
             raise HDFSConfigException(msg)
 
-        return conf
+        return conf['host'], conf['port']
 
     def _hdfs_conf(self, autodetect=False):
         """"
@@ -186,7 +186,7 @@ class Knit(object):
             msg = "Possible Namenode port mismatch.  Detected {0}".format(conf['port'])
             raise HDFSConfigException(msg)
 
-        return conf
+        return conf['host'], conf['port']
 
     def start(self, cmd, num_containers=1, virtual_cores=1, memory=128, env="",
               files=[], app_name="knit", queue="default"):
