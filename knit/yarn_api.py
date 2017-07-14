@@ -27,7 +27,6 @@ class YARNAPI(object):
     def __init__(self, rm, rm_port):
         self.rm = rm
         self.rm_port = rm_port
-        self.host_port = "{0}:{1}".format(self.rm, self.rm_port)
 
 
     @property
@@ -62,8 +61,7 @@ class YARNAPI(object):
         """
         if not shell:
             try:
-                host_port = "{0}:{1}".format(self.rm, self.rm_port)
-                url = "http://{0}/ws/v1/cluster/apps/{1}".format(host_port, app_id)
+                url = "http://{0}/ws/v1/cluster/apps/{1}".format(self.host_port, app_id)
 
                 logger.debug("Getting Resource Manager Info: {0}".format(url))
                 r = requests.get(url)
@@ -116,6 +114,9 @@ class YARNAPI(object):
         out = shell_out(cmd)
         return str(out)
 
+    @property
+    def host_port(self):
+        return "{0}:{1}".format(self.rm, self.rm_port)
 
     @check_app_id
     def status(self, app_id):
@@ -131,8 +132,7 @@ class YARNAPI(object):
         log: dictionary
             status of application
         """
-        host_port = "{0}:{1}".format(self.rm, self.rm_port)
-        url = "http://{0}/ws/v1/cluster/apps/{1}".format(host_port, app_id)
+        url = "http://{0}/ws/v1/cluster/apps/{1}".format(self.host_port, app_id)
         logger.debug("Getting Application Info: {0}".format(url))
         r = requests.get(url)
         data = r.json()
